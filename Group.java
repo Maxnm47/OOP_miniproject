@@ -28,18 +28,22 @@ public class Group {
         }
 
         GenericList<Student> students = new GenericList<>();
-
         public void addStudent(Student student) {
-            if(this.groupSize <= 6 && !students.getAllItems().contains(student)){
+            if (this.groupSize >= 6) {
+                System.out.println("Group " + this.groupId + " is full");
+                return;
+            }
+            
+
+            for (Student existingStudent : students.getAllItems()) {
+                if (existingStudent.getName().equals(student.getName())) {
+                    System.out.println("Student is already in group");
+                    return;
+                }
+            }
+        
             students.AddToList(student);
             this.groupSize++;
-            }
-            else if (this.groupSize > 6){
-                System.out.println("Group" + this.groupId +  "is full");
-            }
-            else if (students.getAllItems().contains(student)){
-                System.out.println("Student is already in group");
-            }
         }
 
         public void getStudents() {
