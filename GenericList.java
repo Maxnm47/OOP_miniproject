@@ -7,10 +7,13 @@ class GenericList<T>{
         elems.add(listitem);
     }
 
-    public void printList(){
-        for(T item : elems) {
-            System.out.print(item + " ");
-        }
-        System.out.println();
+    public ArrayList<T> getAllItems(){
+        return elems;
+    }
+    public T getItem(int index){
+        return elems.get(index);
+    }
+    public int getSize(){
+        return elems.size();
     }
 }
