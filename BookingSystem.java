@@ -72,33 +72,37 @@ public class BookingSystem {
     System.out.println("Enter the group ID to reserve a room for:");
     // make this show all the groups
     getGroups(groups);
-    
+
     groupId = Integer.parseInt(scanner.nextLine().trim());
     group = groups.getItem(groupId);
-    
+
     if (group == null) {
         System.out.println("Group not found.");
         continue;
     }
-    getRoomsAndReservations(rooms); 
+    getRoomsAndReservations(rooms);
     System.out.println("Enter the room ID to reserve:");
-    
+
     int roomId = Integer.parseInt(scanner.nextLine().trim());
     Room room = rooms.getItem(roomId);
-    
+
     if (room == null) {
         System.out.println("Room not found.");
         continue;
     }
-    
-    
+
     showAvailableTimesForRoom(room);
     int startTimeIndex = Integer.parseInt(scanner.nextLine().trim()) - 1; // subtract 1 for zero-based index
 
-    
+    // Check if the selected time slot is already reserved
+    if (room.isTimeSlotReserved(startTimeIndex)) {
+        System.out.println("Invalid time slot: Already reserved.");
+        break;
+    }
+
     System.out.println("Enter the number of hours to reserve (max 4):");
     int hours = Integer.parseInt(scanner.nextLine().trim());
-    
+
     if (group.reserveRoom(room, startTimeIndex, hours)) {
         System.out.println("Room reserved successfully!");
         room.getSchedule();  // Refresh the schedule
@@ -109,6 +113,7 @@ public class BookingSystem {
 
     showAvailableTimesForRoom(room);
     break;
+    
     case 5:
         for (int i = 0; i < rooms.getSize(); i++) {
         room = rooms.getItem(i);

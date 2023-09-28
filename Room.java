@@ -26,12 +26,17 @@ public class Room {
     }
 
     public boolean reserveRoom(int hourIndex, Reservation reservation) {
-        if (hourIndex >= 0 && hourIndex < 10 && availableHours[hourIndex] == null) {
+    if (hourIndex >= 0 && hourIndex < 10) {
+        if (availableHours[hourIndex] == null) {
             availableHours[hourIndex] = reservation;
             return true;
+        } else {
+            System.out.println("Invalid time slot: Already reserved.");
         }
-        return false;
     }
+    return false;
+}
+
     
     public boolean[] getSchedule() {
     schedule = new boolean[availableHours.length];
@@ -40,4 +45,11 @@ public class Room {
     }
     return schedule;
 }
+
+    public boolean isTimeSlotReserved(int hourIndex) {
+        if (hourIndex >= 0 && hourIndex < availableHours.length) {
+            return availableHours[hourIndex] != null;
+        }
+        return false;
+    }
 }
