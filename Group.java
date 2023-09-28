@@ -3,9 +3,10 @@ public class Group {
         private static int groupCount = 0;
         private int groupId;
         private int groupSize;
-        private int hoursBooked;
+        private int hoursBooked; // for later
         private String Subject;
-        
+        private Reservation reservation;
+
         public static Group createGroup(String subject) {
             Group group = new Group();
             group.setId(groupCount);
@@ -61,5 +62,24 @@ public class Group {
             return this.Subject;
         }
 
+       public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public boolean reserveRoom(Room room, int startTimeIndex, int hours) {
+    for (int i = startTimeIndex; i < startTimeIndex + hours; i++) {
+        if (!room.reserveRoom(i, new Reservation(this.getId(), hours, room))) {
+            return false;
+        }
+    }
+    return true;
+}
+
     
+
+
 }
