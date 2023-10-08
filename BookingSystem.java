@@ -3,12 +3,12 @@ import java.util.Scanner;
 public class BookingSystem {
     public static void main(String[] args) {
         
-        GenericList<Student> students = studentsMaker(12);
-        GenericList<Group> groups = new GenericList<>();
-        GenericList<Room> rooms = roomMaker(2);  
-        Scanner scanner = new Scanner(System.in);
-                System.out.println("Select Role:");
-        System.out.println("1: Administrator");
+        GenericList<Student> students = studentsMaker(12); // generic list for students 
+        GenericList<Group> groups = new GenericList<>(); // generic list for groups
+        GenericList<Room> rooms = roomMaker(2);  // generic list for rooms
+        Scanner scanner = new Scanner(System.in); // scanner for user input
+        System.out.println("Select Role:"); 
+        System.out.println("1: Administrator"); 
         //System.out.println("2: Student");
         
         int role = Integer.parseInt(scanner.nextLine().trim());
@@ -28,6 +28,8 @@ public class BookingSystem {
 
                 int choice = Integer.parseInt(scanner.nextLine().trim());
             switch (choice) {
+
+
     case 1:
         System.out.println("Enter the subject for the new group:");
         String subject = scanner.nextLine().trim();
@@ -35,6 +37,7 @@ public class BookingSystem {
         System.out.println("Group created. Current groups:");
         getGroups(groups);  // Show all groups after creating a new one
         break;
+
     case 2:
         // New case to add a student to a group
         System.out.println("Available Students:");
@@ -65,6 +68,8 @@ public class BookingSystem {
 
         addStudentToGroup(student, group);
         break;
+
+
     case 3:
         showAllGroupsAndMembers(groups);  // Display all groups and their members
         break;
@@ -73,17 +78,17 @@ public class BookingSystem {
     // make this show all the groups
     getGroups(groups);
 
-    groupId = Integer.parseInt(scanner.nextLine().trim());
-    group = groups.getItem(groupId);
+    groupId = Integer.parseInt(scanner.nextLine().trim()); // Get the group ID from the user
+    group = groups.getItem(groupId); // Get the group object from the list
 
-    if (group == null) {
+    if (group == null) { // Check if the group exists
         System.out.println("Group not found.");
         continue;
     }
-    getRoomsAndReservations(rooms);
+    getRoomsAndReservations(rooms); // Display all rooms and their reservations
     System.out.println("Enter the room ID to reserve:");
 
-    int roomId = Integer.parseInt(scanner.nextLine().trim());
+    int roomId = Integer.parseInt(scanner.nextLine().trim()); // Get the room ID from the user
     Room room = rooms.getItem(roomId);
 
     if (room == null) {
@@ -91,7 +96,7 @@ public class BookingSystem {
         continue;
     }
 
-    showAvailableTimesForRoom(room);
+    showAvailableTimesForRoom(room); // Display the available times for the selected room
     int startTimeIndex = Integer.parseInt(scanner.nextLine().trim()) - 1; // subtract 1 for zero-based index
 
     // Check if the selected time slot is already reserved
@@ -111,7 +116,6 @@ public class BookingSystem {
         System.out.println("Failed to reserve room.");
     }
 
-    showAvailableTimesForRoom(room);
     break;
     
     case 5:
@@ -128,7 +132,7 @@ public class BookingSystem {
     }
         } 
 
-             else {
+             else { // for next self study
                 System.out.println("Invalid role selected.");
                 scanner.close();
                 return;
@@ -137,7 +141,7 @@ public class BookingSystem {
     }
 
     
-    public static void getGroups(GenericList<Group> groups){
+    public static void getGroups(GenericList<Group> groups){ // method to get all groups
         System.out.println("------");
         for(int i = 0; i < groups.getSize(); i++){
             System.out.println("group " + groups.getAllItems().get(i).getId() +" subject "+ groups.getAllItems().get(i).getSubject() + " members:");
@@ -146,7 +150,7 @@ public class BookingSystem {
         }
     }
 
-    public static void showAllGroupsAndMembers(GenericList<Group> groups) {
+    public static void showAllGroupsAndMembers(GenericList<Group> groups) { // method to show all groups and members
         if(groups.getSize() == 0) {
             System.out.println("No groups available.");
             return;
@@ -161,7 +165,7 @@ public class BookingSystem {
         }
     }
     
-    public static GenericList<Student> studentsMaker(int count){
+    public static GenericList<Student> studentsMaker(int count){ // method to create students
         GenericList<Student> students = new GenericList<>();
         for(int i = 0; i < count; i++){ 
             students.AddToList(Student.createStudent("Student " + i));
@@ -169,7 +173,7 @@ public class BookingSystem {
         return students;
     }
 
-    public static GenericList<Room> roomMaker(int count){
+    public static GenericList<Room> roomMaker(int count){ // method to create rooms
         GenericList<Room> rooms = new GenericList<>();
         for(int i = 0; i < count; i++){ 
             rooms.AddToList(new Room(i));
@@ -178,7 +182,7 @@ public class BookingSystem {
     }
 
 
-    public static void addStudentToGroup(Student student, Group group){
+    public static void addStudentToGroup(Student student, Group group){ // method to add student to group
         if (student.getCourses().contains(group.getSubject())) {
             System.out.println("Student already in a group with that subject");
             return;
@@ -186,13 +190,13 @@ public class BookingSystem {
 
         boolean courseAdded = student.addCourse(group.getSubject());
         if (courseAdded) {
-            group.addStudent(student);
+            group.addStudent(student); // add student to group
         } else {
             System.out.println("Failed to add student to group");
         }
     }
 
-    public static Student findStudentByName(GenericList<Student> students, String name) {
+    public static Student findStudentByName(GenericList<Student> students, String name) { // method to find student by name
         for (int i = 0; i < students.getSize(); i++) {
             if (students.getItem(i).getName().equals(name)) {
                 return students.getItem(i);
@@ -200,24 +204,24 @@ public class BookingSystem {
         }
         return null;
     }
-   public static void getRoomsAndReservations(GenericList<Room> rooms) {
-    for (int i = 0; i < rooms.getSize(); i++) {
-        Room room = rooms.getItem(i);
-        System.out.println("Room ID: " + room.getRoomId());
+   public static void getRoomsAndReservations(GenericList<Room> rooms) { // method to get rooms and reservations
+    for (int i = 0; i < rooms.getSize(); i++) { // loop through all rooms
+        Room room = rooms.getItem(i); // get the room object
+        System.out.println("Room ID: " + room.getRoomId()); // display the room ID
         
-        boolean[] schedule = room.getSchedule();
-        for (int j = 0; j < schedule.length; j++) {
-            String timeSlot = (j + 8) + ":00 - " + (j + 9) + ":00";
+        boolean[] schedule = room.getSchedule(); // get the schedule for the room
+        for (int j = 0; j < schedule.length; j++) { // loop through the schedule
+            String timeSlot = (j + 8) + ":00 - " + (j + 9) + ":00"; // display the time slot
             String reserved = schedule[j] ? "Reserved" : "Available";
             System.out.println(timeSlot + ": " + reserved);
         }
         System.out.println("------");
     }
 } 
-public static void showAvailableTimesForRoom(Room room) {
-    System.out.println("Available Times for Room ID: " + room.getRoomId());
-    Reservation[] availableHours = room.getAvailableHours();
-    for (int j = 0; j < availableHours.length; j++) {
+public static void showAvailableTimesForRoom(Room room) { // method to show available times for room
+    System.out.println("Available Times for Room ID: " + room.getRoomId()); // display the room ID
+    Reservation[] availableHours = room.getAvailableHours(); // get the available hours for the room
+    for (int j = 0; j < availableHours.length; j++) { // loop through the available hours
         String timeSlot = (j + 8) + ":00 - " + (j + 9) + ":00";
         if (availableHours[j] != null) {
             System.out.println((j+1) + ": " + timeSlot + ": Reserved by group " + availableHours[j].getGroupId());
